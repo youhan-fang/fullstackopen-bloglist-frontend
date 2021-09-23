@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import Blog from './components/Blog';
 import Login from './components/Login';
 import NewBlog from './components/NewBlog';
+import Notification from './components/Notification';
 import blogService from './services/blogs';
 import loginService from './services/login';
+
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
@@ -13,6 +15,7 @@ const App = () => {
   const [author, setAuthor] = useState('');
   const [url, setUrl] = useState('');
   const [user, setUser] = useState(null);
+  const [message, setMessage] = useState(null);
 
   useEffect(() => {
     const getAllBlogs = async () => {
@@ -31,6 +34,16 @@ const App = () => {
     }
   }, []);
 
+  const showNotification = (message, type) => {
+    setMessage({
+      message,
+      type
+    });
+    setTimeout(() => {
+      setMessage(null);
+    }, 5000);
+  }
+
   const handleLogin = async (event) => {
     event.preventDefault();
     console.log('user logging in:', username, password);
@@ -41,8 +54,9 @@ const App = () => {
       setUser(user);
       setUsername('');
       setPassword('');
+      showNotification('logged in successfully');
     } catch (exception) {
-      alert('wrong credentials');
+      showNotification(exception.response.data.error, 'error');
       console.log(exception);
     }
   }
@@ -50,6 +64,7 @@ const App = () => {
   const handleLogout = (event) => {
     setUser(null);
     window.localStorage.removeItem('loggedUser');
+    showNotification('logged out successfully');
   }
 
   const handleBlogCreation = async (event) => {
@@ -59,17 +74,20 @@ const App = () => {
       const createdBlog = await blogService.create({ title, author, url });
       setBlogs(blogs.concat(createdBlog));
       console.log('created blog:', createdBlog);
+      showNotification('new blog added succesfully');
       setTitle('');
       setAuthor('');
       setUrl('');
     } catch (exception) {
-      console.log(exception);
+      showNotification(exception.response.data.error, 'error');
+      console.log('exception', JSON.stringify(exception.response));
     }
   }
 
   return (
     <div>
       <h2>blogs</h2>
+      { message ? <Notification message={message} /> : null}
       <Login 
         user={user} 
         setUsername={setUsername} 
