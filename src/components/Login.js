@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Login = ({ handleLogin, setUsername, setPassword, user}) => {
+const Login = ({ handleLogin, handleLogout, setUsername, setPassword, user}) => {
   if (!user) {
     return (
       <div>
@@ -22,6 +22,7 @@ const Login = ({ handleLogin, setUsername, setPassword, user}) => {
     return (
       <p>
         {user.name} logged in
+        <button onClick={handleLogout}>logout</button>
       </p>
     );
   }
