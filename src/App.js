@@ -108,6 +108,18 @@ const App = () => {
     }
   };
 
+  const updateBlogLikes = async (objectToUpdate, id) => {
+    try {
+      const updatedBlog = await blogService.update(objectToUpdate, id);
+      console.log('updated blog:', updatedBlog);
+      return updatedBlog;
+    } catch (exception) {
+      showNotification(exception.response.data.error, 'error');
+      console.log('exception', JSON.stringify(exception.response));
+      return null;
+    }
+  };
+
   return (
     <div>
       <h2>blogs</h2>
@@ -115,7 +127,7 @@ const App = () => {
       {loginForm()}
       {user ? newBlogForm() : null}
       {user ? blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} updateBlogLikes={updateBlogLikes}/>
       ) : null}
     </div>
   );
