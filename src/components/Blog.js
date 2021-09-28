@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-const Blog = ({ blog, updateBlogLikes, user }) => {
+const Blog = ({ blog, updateBlogLikes, deleteBlog, user }) => {
   const blogStyle = {
     paddingTop: 10,
     paddingBottom: 10,
@@ -25,7 +25,11 @@ const Blog = ({ blog, updateBlogLikes, user }) => {
           likes {likes}
           <button style={buttonStyle} onClick={handleLikeBlog}>like</button>
         </div>
-        {blog.user && blog.user.name ? <div>{blog.user.name}</div> : <div>{user.name}</div>}
+        {blog.user && blog.user.name ? <div>{blog.user.name}</div> : null}
+        {blog.user && blog.user.username === user.username
+          ? <button onClick={handleDeleteBlog}>remove</button>
+          : null
+        }
       </div>
     );
   };
@@ -45,6 +49,15 @@ const Blog = ({ blog, updateBlogLikes, user }) => {
       setLikes(likes + 1);
     }
     console.log('updated blog:', updatedBlog);
+  };
+
+  const handleDeleteBlog = async () => {
+    const result = window.confirm(`remove ${blog.title} by ${blog.author}?`);
+    if (result) {
+      console.log('blog to be removed:', blog.id);
+      const result = await deleteBlog(blog.id);
+      console.log('result', result);
+    }
   };
 
   return (

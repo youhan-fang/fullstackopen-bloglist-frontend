@@ -13,6 +13,8 @@ const App = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
+  const [newBlogCreated, setNewBlogCreated] = useState(false);
+  const [blogDeleted, setBlogDeleted] = useState(false);
   const [message, setMessage] = useState(null);
   const loginFormRef = useRef();
   const newBlogFormRef = useRef();
@@ -46,7 +48,9 @@ const App = () => {
       setBlogs( blogs );
     };
     getAllBlogs();
-  }, []);
+    setNewBlogCreated(false);
+    setBlogDeleted(false);
+  }, [newBlogCreated, blogDeleted]);
 
   useEffect (() => {
     const userJson = window.localStorage.getItem('loggedUser');
@@ -99,6 +103,7 @@ const App = () => {
       newBlogFormRef.current.toggleVisibility();
       console.log('created blog:', createdBlog);
       setBlogs(blogs.concat(createdBlog));
+      setNewBlogCreated(true);
       showNotification('new blog added succesfully');
       return true;
     } catch (exception) {
@@ -120,6 +125,19 @@ const App = () => {
     }
   };
 
+  const deleteBlog = async (id) => {
+    try {
+      const result = await blogService.deleteBlog(id);
+      console.log('deleted blog', result);
+      setBlogDeleted(true);
+      return result;
+    } catch (exception) {
+      showNotification(exception.response.data.error, 'error');
+      console.log('exception', JSON.stringify(exception.response));
+      return null;
+    }
+  };
+
   let blogsToShow = [...blogs];
   blogsToShow.sort((blog1, blog2) => {
     return blog2.likes - blog1.likes;
@@ -132,7 +150,13 @@ const App = () => {
       {loginForm()}
       {user ? newBlogForm() : null}
       {user ? blogsToShow.map(blog =>
-        <Blog key={blog.id} blog={blog} user={user} updateBlogLikes={updateBlogLikes}/>
+        <Blog
+          key={blog.id}
+          blog={blog}
+          user={user}
+          updateBlogLikes={updateBlogLikes}
+          deleteBlog={deleteBlog}
+        />
       ) : null}
     </div>
   );
