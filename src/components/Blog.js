@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-const Blog = ({ blog, updateBlogLikes }) => {
+const Blog = ({ blog, updateBlogLikes, user }) => {
   const blogStyle = {
     paddingTop: 10,
     paddingBottom: 10,
@@ -25,11 +25,11 @@ const Blog = ({ blog, updateBlogLikes }) => {
           likes {likes}
           <button style={buttonStyle} onClick={handleLikeBlog}>like</button>
         </div>
-        {blog.user ? <div>{blog.user.name}</div> : null}
+        {blog.user && blog.user.name ? <div>{blog.user.name}</div> : <div>{user.name}</div>}
       </div>
     );
   };
-  console.log('blog content:', blog);
+  // console.log('blog content:', blog);
 
   const handleLikeBlog = async () => {
     const blogToUpdate = {

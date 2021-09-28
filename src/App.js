@@ -97,8 +97,8 @@ const App = () => {
     try {
       const createdBlog = await blogService.create(newObject);
       newBlogFormRef.current.toggleVisibility();
-      setBlogs(blogs.concat(createdBlog));
       console.log('created blog:', createdBlog);
+      setBlogs(blogs.concat(createdBlog));
       showNotification('new blog added succesfully');
       return true;
     } catch (exception) {
@@ -120,14 +120,19 @@ const App = () => {
     }
   };
 
+  let blogsToShow = [...blogs];
+  blogsToShow.sort((blog1, blog2) => {
+    return blog2.likes - blog1.likes;
+  });
+
   return (
     <div>
       <h2>blogs</h2>
       { message ? <Notification message={message} /> : null}
       {loginForm()}
       {user ? newBlogForm() : null}
-      {user ? blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} updateBlogLikes={updateBlogLikes}/>
+      {user ? blogsToShow.map(blog =>
+        <Blog key={blog.id} blog={blog} user={user} updateBlogLikes={updateBlogLikes}/>
       ) : null}
     </div>
   );
