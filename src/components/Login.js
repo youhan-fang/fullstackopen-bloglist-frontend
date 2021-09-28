@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Login = ({ handleLogin, handleLogout, setUsername, setPassword, user}) => {
+const Login = ({ handleLogin, handleLogout, setUsername, setPassword, user }) => {
   if (!user) {
     return (
       <div>
@@ -26,6 +26,6 @@ const Login = ({ handleLogin, handleLogout, setUsername, setPassword, user}) => 
       </p>
     );
   }
-}
+};
 
 export default Login;

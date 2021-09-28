@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 const NewBlog = (props) => {
   if (props.user) {
@@ -25,6 +25,6 @@ const NewBlog = (props) => {
   } else {
     return null;
   }
-}
+};
 
 export default NewBlog;
