@@ -12,9 +12,6 @@ const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [title, setTitle] = useState('');
-  const [author, setAuthor] = useState('');
-  const [url, setUrl] = useState('');
   const [user, setUser] = useState(null);
   const [message, setMessage] = useState(null);
   const loginFormRef = useRef();
@@ -37,13 +34,7 @@ const App = () => {
       <Toggleble buttonLabel='create new blog' ref={newBlogFormRef}>
         <NewBlog
           user={user}
-          title={title}
-          author={author}
-          url={url}
-          setTitle={setTitle}
-          setAuthor={setAuthor}
-          setUrl={setUrl}
-          handleBlogCreation={handleBlogCreation}
+          createNewBlog={createNewBlog}
         />
       </Toggleble>
     );
@@ -102,21 +93,18 @@ const App = () => {
     showNotification('logged out successfully');
   };
 
-  const handleBlogCreation = async (event) => {
-    event.preventDefault();
-    console.log('submitted blog:', title, author, url);
+  const createNewBlog = async (newObject) => {
     try {
-      const createdBlog = await blogService.create({ title, author, url });
+      const createdBlog = await blogService.create(newObject);
       newBlogFormRef.current.toggleVisibility();
       setBlogs(blogs.concat(createdBlog));
       console.log('created blog:', createdBlog);
       showNotification('new blog added succesfully');
-      setTitle('');
-      setAuthor('');
-      setUrl('');
+      return true;
     } catch (exception) {
       showNotification(exception.response.data.error, 'error');
       console.log('exception', JSON.stringify(exception.response));
+      return false;
     }
   };
 

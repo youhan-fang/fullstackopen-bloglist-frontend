@@ -1,22 +1,43 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const NewBlog = (props) => {
-  if (props.user) {
+
+const NewBlog = ({ createNewBlog, user }) => {
+  const [title, setTitle] = useState('');
+  const [author, setAuthor] = useState('');
+  const [url, setUrl] = useState('');
+
+  const addBlog = async (event) => {
+    event.preventDefault();
+    console.log('button clicked', event.target);
+    const newObject = {
+      title: title,
+      author: author,
+      url: url
+    };
+    const newBlogCreated = await createNewBlog(newObject);
+    if (newBlogCreated) {
+      setTitle('');
+      setAuthor('');
+      setUrl('');
+    }
+  };
+
+  if (user) {
     return (
       <div>
         <h2>create new</h2>
-        <form onSubmit={props.handleBlogCreation}>
+        <form onSubmit={addBlog}>
           <div>
             title:
-            <input value={props.title} onChange={({ target }) => (props.setTitle(target.value))} />
+            <input value={title} onChange={({ target }) => (setTitle(target.value))} />
           </div>
           <div>
             author:
-            <input value={props.author} onChange={({ target }) => (props.setAuthor(target.value))} />
+            <input value={author} onChange={({ target }) => (setAuthor(target.value))} />
           </div>
           <div>
             url:
-            <input value={props.url} onChange={({ target }) => (props.setUrl(target.value))} />
+            <input value={url} onChange={({ target }) => (setUrl(target.value))} />
           </div>
           <button type='submit'>create</button>
         </form>
