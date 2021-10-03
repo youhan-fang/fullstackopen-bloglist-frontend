@@ -19,7 +19,7 @@ const Blog = ({ blog, updateBlogLikes, deleteBlog, user }) => {
   const buttonLabel = visible ? 'hide' : 'view';
   const blogContent = () => {
     return (
-      <div>
+      <div className='blog'>
         <div>{blog.url}</div>
         <div>
           likes {likes}
