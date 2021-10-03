@@ -8,7 +8,7 @@ const NewBlog = ({ createNewBlog, user }) => {
 
   const addBlog = async (event) => {
     event.preventDefault();
-    console.log('button clicked', event.target);
+    // console.log('button clicked', event.target);
     const newObject = {
       title: title,
       author: author,
@@ -24,20 +24,20 @@ const NewBlog = ({ createNewBlog, user }) => {
 
   if (user) {
     return (
-      <div>
+      <div className='newBlog'>
         <h2>create new</h2>
         <form onSubmit={addBlog}>
           <div>
             title:
-            <input value={title} onChange={({ target }) => (setTitle(target.value))} />
+            <input value={title} id='title' onChange={({ target }) => (setTitle(target.value))} />
           </div>
           <div>
             author:
-            <input value={author} onChange={({ target }) => (setAuthor(target.value))} />
+            <input value={author} id='author' onChange={({ target }) => (setAuthor(target.value))} />
           </div>
           <div>
             url:
-            <input value={url} onChange={({ target }) => (setUrl(target.value))} />
+            <input value={url} id='url' onChange={({ target }) => (setUrl(target.value))} />
           </div>
           <button type='submit'>create</button>
         </form>

@@ -40,6 +40,7 @@ describe('test <Blog />', () => {
     const mockHandler = jest.fn();
     const user = { id: '123', username: 'username', name: 'name' };
     const blog = {
+      id: '1234',
       user: user,
       title: 'test blog title',
       author: 'test blog author',

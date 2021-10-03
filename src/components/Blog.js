@@ -45,10 +45,10 @@ const Blog = ({ blog, updateBlogLikes, deleteBlog, user }) => {
     };
     // console.log('blog to update:', blogToUpdate);
     const updatedBlog = await updateBlogLikes(blogToUpdate, blog.id);
-    if (updatedBlog.id) {
+    if (updatedBlog && updatedBlog.id) {
       setLikes(likes + 1);
     }
-    console.log('updated blog:', updatedBlog);
+    // console.log('updated blog:', updatedBlog);
   };
 
   const handleDeleteBlog = async () => {
