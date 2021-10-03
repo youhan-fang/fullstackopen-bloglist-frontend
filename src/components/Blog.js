@@ -23,7 +23,7 @@ const Blog = ({ blog, updateBlogLikes, deleteBlog, user }) => {
         <div>{blog.url}</div>
         <div>
           likes {likes}
-          <button style={buttonStyle} onClick={handleLikeBlog}>like</button>
+          <button style={buttonStyle} onClick={handleLikeBlog} className='likeButton'>like</button>
         </div>
         {blog.user && blog.user.name ? <div>{blog.user.name}</div> : null}
         {blog.user && blog.user.username === user.username
@@ -43,7 +43,7 @@ const Blog = ({ blog, updateBlogLikes, deleteBlog, user }) => {
       title: blog.title,
       url: blog.url
     };
-    console.log('blog to update:', blogToUpdate);
+    // console.log('blog to update:', blogToUpdate);
     const updatedBlog = await updateBlogLikes(blogToUpdate, blog.id);
     if (updatedBlog.id) {
       setLikes(likes + 1);
