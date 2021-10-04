@@ -3,6 +3,12 @@
 describe('Note app', function() {
   beforeEach(function() {
     cy.request('POST', 'http://localhost:3003/api/testing/reset/');
+    const user = {
+      username: 'root',
+      name: 'root',
+      password: 'password'
+    };
+    cy.request('POST', 'http://localhost:3003/api/users/', user);
     cy.visit('http://localhost:3000');
   });
 
@@ -13,15 +19,6 @@ describe('Note app', function() {
   });
 
   describe('Login', function() {
-    beforeEach(function() {
-      const user = {
-        username: 'root',
-        name: 'root',
-        password: 'password'
-      };
-      cy.request('POST', 'http://localhost:3003/api/users/', user);
-    });
-
     it('succeeds with correct credentials', function() {
       cy.get('#username').type('root');
       cy.get('#password').type('password');
@@ -37,6 +34,17 @@ describe('Note app', function() {
         .should('contain', 'invalid username or password')
         .and('have.css', 'color', 'rgb(255, 0, 0)')
         .and('have.css', 'border-style', 'solid');
+    });
+  });
+
+  describe('when logged in', function() {
+    beforeEach(function() {
+      cy.login({ username: 'root', password: 'password' });
+    });
+
+    it('a new blog can be created', function() {
+      cy.createBlog({ title: 'new blog created by cypress', author: 'unknown', url: 'blog url' });
+      cy.contains('new blog created by cypress');
     });
   });
 
