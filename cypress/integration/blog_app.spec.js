@@ -62,7 +62,7 @@ describe('Note app', function() {
         cy.contains('a blog to be deleted').should('not.exist');
       });
 
-      it.only('a user cannot delete the blog not created by him/her', function() {
+      it('a user cannot delete the blog not created by him/her', function() {
         cy.createBlog({ title: 'a blog not to be deleted', author: 'unknown', url: 'blog url' });
         cy.get('#logoutButton').click();
         const user = {
@@ -76,6 +76,16 @@ describe('Note app', function() {
         cy.get('#removeButton').should('not.exist');
       });
     });
-  });
 
+    describe('sort blog', function() {
+      it('blogs are sorted by likes', function() {
+        cy.createBlog({ title: 'blog one', author: 'unknown', url: 'blog url', likes: 10 });
+        cy.createBlog({ title: 'blog two', author: 'unknown', url: 'blog url', likes: 5 });
+        cy.createBlog({ title: 'blog three', author: 'unknown', url: 'blog url', likes: 15 });
+        cy.get('.blogEntry').eq(0).should('contain.text', 'blog three');
+        cy.get('.blogEntry').eq(1).should('contain.text', 'blog one');
+        cy.get('.blogEntry').eq(2).should('contain.text', 'blog two');
+      });
+    });
+  });
 });

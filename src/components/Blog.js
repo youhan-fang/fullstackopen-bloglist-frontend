@@ -61,9 +61,9 @@ const Blog = ({ blog, updateBlogLikes, deleteBlog, user }) => {
   };
 
   return (
-    <div style={blogStyle}>
+    <div className='blogEntry' style={blogStyle}>
       {blog.title} {blog.author}
-      <button style={buttonStyle} onClick={() => {setVisible(!visible);}}>
+      <button id='viewButton' style={buttonStyle} onClick={() => {setVisible(!visible);}}>
         {buttonLabel}
       </button>
       {visible ? blogContent() : null}
