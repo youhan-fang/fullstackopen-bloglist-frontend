@@ -22,7 +22,7 @@ const Login = ({ handleLogin, handleLogout, setUsername, setPassword, user }) =>
     return (
       <p>
         {user.name} logged in
-        <button onClick={handleLogout}>logout</button>
+        <button id='logoutButton' onClick={handleLogout}>logout</button>
       </p>
     );
   }
