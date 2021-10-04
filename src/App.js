@@ -77,11 +77,11 @@ const App = () => {
     // console.log('formRef:', loginFormRef.current);
     // loginFormRef.current.toggleVisibility();
     try {
-      const user = await loginService.login({ username, password });
+      const loggedUser = await loginService.login({ username, password });
       console.log('formRef:', loginFormRef.current);
-      window.localStorage.setItem('loggedUser', JSON.stringify(user));
-      blogService.setToken(user.token);
-      setUser(user);
+      window.localStorage.setItem('loggedUser', JSON.stringify(loggedUser));
+      blogService.setToken(loggedUser.token);
+      setUser(loggedUser);
       setUsername('');
       setPassword('');
       showNotification('logged in successfully');

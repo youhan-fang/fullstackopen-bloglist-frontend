@@ -14,7 +14,7 @@ const Notification = ({ message }) => {
     marginBottom: 10
   };
   return (
-    <div style={style}>
+    <div className='notification' style={style}>
       {message.message}
     </div>
   );
