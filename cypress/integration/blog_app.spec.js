@@ -46,6 +46,13 @@ describe('Note app', function() {
       cy.createBlog({ title: 'new blog created by cypress', author: 'unknown', url: 'blog url' });
       cy.contains('new blog created by cypress');
     });
+
+    it.only('user can like a blog', function() {
+      cy.createBlog({ title: 'a blog to be liked created', author: 'unknown', url: 'blog url' });
+      cy.contains('a blog to be liked').parent().contains('view').click();
+      cy.get('#likeButton').click();
+      cy.get('.blogLikes').contains('1');
+    });
   });
 
 });

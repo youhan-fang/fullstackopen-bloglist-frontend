@@ -21,9 +21,9 @@ const Blog = ({ blog, updateBlogLikes, deleteBlog, user }) => {
     return (
       <div className='blog'>
         <div>{blog.url}</div>
-        <div>
+        <div className='blogLikes'>
           likes {likes}
-          <button style={buttonStyle} onClick={handleLikeBlog} className='likeButton'>like</button>
+          <button id='likeButton' style={buttonStyle} onClick={handleLikeBlog} className='likeButton'>like</button>
         </div>
         {blog.user && blog.user.name ? <div>{blog.user.name}</div> : null}
         {blog.user && blog.user.username === user.username
